@@ -9,10 +9,10 @@
 #import "CoachMarkView.h"
 
 #define HEIGHTOFPOPUPTRIANGLE 20
-#define WIDTHOFPOPUPTRIANGLE 40
+#define WIDTHOFPOPUPTRIANGLE 10
 #define TEXTMARGIN 10
 #define BORDER 8
-#define STROKE 3
+#define STROKE 2
 #define PADDING 0.5f
 #define kBorderColor [UIColor lightGrayColor]
 #define kFillColor [UIColor whiteColor]
@@ -38,10 +38,11 @@
     return self;
 }
 
-- (void) drawPopupUp {
+- (void) drawPopupUpMiddle {
     CGRect currentFrame = self.bounds;
     CGContextRef context = UIGraphicsGetCurrentContext();
     
+    CGContextSetShadow(context, CGSizeMake(-1, 1), 3);
     CGContextSetLineJoin(context, kCGLineJoinRound);
     CGContextSetLineWidth(context, STROKE);
     CGContextSetStrokeColorWithColor(context, [kBorderColor CGColor]); 
@@ -97,10 +98,131 @@
     CGContextDrawPath(context, kCGPathFillStroke);
 }
 
-- (void) drawPopupDown {
+- (void) drawPopupUpLeft {
     CGRect currentFrame = self.bounds;
     CGContextRef context = UIGraphicsGetCurrentContext();
     
+    CGContextSetShadow(context, CGSizeMake(-1, 1), 3);
+    CGContextSetLineJoin(context, kCGLineJoinRound);
+    CGContextSetLineWidth(context, STROKE);
+    CGContextSetStrokeColorWithColor(context, [kBorderColor CGColor]); 
+    CGContextSetFillColorWithColor(context, [kFillColor CGColor]);
+    
+    // Draw and fill the bubble
+    CGContextBeginPath(context);
+    CGContextMoveToPoint(context, 
+                         BORDER + STROKE + PADDING, 
+                         STROKE + HEIGHTOFPOPUPTRIANGLE + PADDING); 
+    
+    CGContextAddLineToPoint(context, 
+                            BORDER + STROKE + PADDING, 
+                            HEIGHTOFPOPUPTRIANGLE + STROKE + PADDING);
+    
+    CGContextAddLineToPoint(context, 
+                            WIDTHOFPOPUPTRIANGLE/2 + PADDING, 
+                            STROKE + PADDING);
+    
+    CGContextAddLineToPoint(context, 
+                            BORDER + STROKE + PADDING + WIDTHOFPOPUPTRIANGLE, 
+                            HEIGHTOFPOPUPTRIANGLE + STROKE + PADDING);
+    
+    CGContextAddArcToPoint(context, 
+                           currentFrame.size.width - STROKE - PADDING, 
+                           STROKE + HEIGHTOFPOPUPTRIANGLE + PADDING, 
+                           currentFrame.size.width - STROKE - PADDING, 
+                           currentFrame.size.height - STROKE - PADDING, 
+                           BORDER - STROKE);
+    
+    CGContextAddArcToPoint(context, 
+                           currentFrame.size.width - STROKE - PADDING, 
+                           currentFrame.size.height - STROKE - PADDING, 
+                           round(currentFrame.size.width / 2.0f + WIDTHOFPOPUPTRIANGLE / 2.0f) - STROKE + PADDING, 
+                           currentFrame.size.height - STROKE - PADDING, 
+                           BORDER - STROKE);
+    
+    CGContextAddArcToPoint(context, 
+                           STROKE + PADDING, 
+                           currentFrame.size.height - STROKE - PADDING, 
+                           STROKE + PADDING, 
+                           HEIGHTOFPOPUPTRIANGLE + STROKE + PADDING, 
+                           BORDER - STROKE);
+    
+    CGContextAddArcToPoint(context, 
+                           STROKE + PADDING, 
+                           STROKE + HEIGHTOFPOPUPTRIANGLE + PADDING, 
+                           currentFrame.size.width - STROKE - PADDING, 
+                           HEIGHTOFPOPUPTRIANGLE + STROKE + PADDING, 
+                           BORDER - STROKE);
+    
+    CGContextClosePath(context);
+    CGContextDrawPath(context, kCGPathFillStroke);
+}
+
+- (void) drawPopupUpRight {
+    CGRect currentFrame = self.bounds;
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    CGContextSetShadow(context, CGSizeMake(-1, 1), 3);
+    CGContextSetLineJoin(context, kCGLineJoinRound);
+    CGContextSetLineWidth(context, STROKE);
+    CGContextSetStrokeColorWithColor(context, [kBorderColor CGColor]); 
+    CGContextSetFillColorWithColor(context, [kFillColor CGColor]);
+    
+    // Draw and fill the bubble
+    CGContextBeginPath(context);
+    CGContextMoveToPoint(context, 
+                         BORDER + STROKE + PADDING, 
+                         STROKE + HEIGHTOFPOPUPTRIANGLE + PADDING); 
+    
+    CGContextAddLineToPoint(context, 
+                            currentFrame.size.width - STROKE - PADDING - WIDTHOFPOPUPTRIANGLE - BORDER, 
+                            HEIGHTOFPOPUPTRIANGLE + STROKE + PADDING);
+    
+    CGContextAddLineToPoint(context, 
+                            currentFrame.size.width - (WIDTHOFPOPUPTRIANGLE/2) - STROKE, 
+                            STROKE + PADDING);
+    
+    CGContextAddLineToPoint(context, 
+                            currentFrame.size.width - STROKE - PADDING - BORDER, 
+                            HEIGHTOFPOPUPTRIANGLE + STROKE + PADDING);
+    
+    CGContextAddArcToPoint(context, 
+                           currentFrame.size.width - STROKE - PADDING, 
+                           HEIGHTOFPOPUPTRIANGLE + STROKE + PADDING, 
+                           currentFrame.size.width - STROKE - PADDING, 
+                           currentFrame.size.height - STROKE - PADDING, 
+                           BORDER - STROKE);
+    
+    CGContextAddArcToPoint(context, 
+                           currentFrame.size.width - STROKE - PADDING, 
+                           currentFrame.size.height - STROKE - PADDING, 
+                           round(currentFrame.size.width / 2.0f + WIDTHOFPOPUPTRIANGLE / 2.0f) - STROKE + PADDING, 
+                           currentFrame.size.height - STROKE - PADDING, 
+                           BORDER - STROKE);
+    
+    CGContextAddArcToPoint(context, 
+                           STROKE + PADDING, 
+                           currentFrame.size.height - STROKE - PADDING, 
+                           STROKE + PADDING, 
+                           HEIGHTOFPOPUPTRIANGLE + STROKE + PADDING, 
+                           BORDER - STROKE);
+    
+    CGContextAddArcToPoint(context, 
+                           STROKE + PADDING, 
+                           STROKE + HEIGHTOFPOPUPTRIANGLE + PADDING, 
+                           currentFrame.size.width - STROKE - PADDING, 
+                           HEIGHTOFPOPUPTRIANGLE + STROKE + PADDING, 
+                           BORDER - STROKE);
+    
+    CGContextClosePath(context);
+    CGContextDrawPath(context, kCGPathFillStroke);
+}
+
+- (void) drawPopdownMiddle {
+    CGRect currentFrame = self.bounds;
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    CGContextSetShadow(context, CGSizeMake(-1, 1), 3);
     CGContextSetLineJoin(context, kCGLineJoinRound);
     CGContextSetLineWidth(context, STROKE);
     CGContextSetStrokeColorWithColor(context, [kBorderColor CGColor]); 
@@ -156,11 +278,131 @@
     CGContextDrawPath(context, kCGPathFillStroke);
 }
 
+- (void) drawPopdownLeft {
+    CGRect currentFrame = self.bounds;
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    CGContextSetShadow(context, CGSizeMake(-1, 1), 3);
+    CGContextSetLineJoin(context, kCGLineJoinRound);
+    CGContextSetLineWidth(context, STROKE);
+    CGContextSetStrokeColorWithColor(context, [kBorderColor CGColor]); 
+    CGContextSetFillColorWithColor(context, [kFillColor CGColor]);
+    
+    // Draw and fill the bubble
+    CGContextBeginPath(context);
+    CGContextMoveToPoint(context, 
+                         BORDER + STROKE + PADDING, 
+                         STROKE + PADDING);
+    
+    CGContextAddArcToPoint(context, 
+                           currentFrame.size.width - STROKE - PADDING, 
+                           STROKE + PADDING, 
+                           currentFrame.size.width - STROKE - PADDING, 
+                           currentFrame.size.height - STROKE - PADDING, 
+                           BORDER - STROKE);
+    
+    CGContextAddArcToPoint(context, 
+                           currentFrame.size.width - STROKE - PADDING, 
+                           currentFrame.size.height - STROKE - PADDING - HEIGHTOFPOPUPTRIANGLE, 
+                           round(currentFrame.size.width / 2.0f + WIDTHOFPOPUPTRIANGLE / 2.0f) - STROKE + PADDING, 
+                           currentFrame.size.height - STROKE - PADDING, 
+                           BORDER - STROKE);
+    
+    CGContextAddLineToPoint(context, 
+                            BORDER + STROKE + PADDING + WIDTHOFPOPUPTRIANGLE, 
+                            currentFrame.size.height - STROKE - PADDING - HEIGHTOFPOPUPTRIANGLE);
+    
+    CGContextAddLineToPoint(context, 
+                            WIDTHOFPOPUPTRIANGLE/2 + PADDING, 
+                            currentFrame.size.height - STROKE - PADDING);
+    
+    CGContextAddLineToPoint(context, 
+                            BORDER + STROKE + PADDING, 
+                            currentFrame.size.height - STROKE - PADDING - HEIGHTOFPOPUPTRIANGLE);
+    
+    CGContextAddArcToPoint(context, 
+                           STROKE + PADDING, 
+                           currentFrame.size.height - STROKE - PADDING - HEIGHTOFPOPUPTRIANGLE, 
+                           STROKE + PADDING, 
+                           HEIGHTOFPOPUPTRIANGLE + STROKE + PADDING, 
+                           BORDER - STROKE);
+    
+    CGContextAddArcToPoint(context, 
+                           STROKE + PADDING, 
+                           STROKE + PADDING, 
+                           currentFrame.size.width - STROKE - PADDING, 
+                           STROKE + PADDING, 
+                           BORDER - STROKE);
+    
+    CGContextClosePath(context);
+    CGContextDrawPath(context, kCGPathFillStroke);
+}
+
+- (void) drawPopdownRight {
+    CGRect currentFrame = self.bounds;
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    CGContextSetShadow(context, CGSizeMake(-1, 1), 3);
+    CGContextSetLineJoin(context, kCGLineJoinRound);
+    CGContextSetLineWidth(context, STROKE);
+    CGContextSetStrokeColorWithColor(context, [kBorderColor CGColor]); 
+    CGContextSetFillColorWithColor(context, [kFillColor CGColor]);
+    
+    // Draw and fill the bubble
+    CGContextBeginPath(context);
+    CGContextMoveToPoint(context, 
+                         BORDER + STROKE + PADDING, 
+                         STROKE + PADDING);
+    
+    CGContextAddArcToPoint(context, 
+                           currentFrame.size.width - STROKE - PADDING, 
+                           STROKE + PADDING, 
+                           currentFrame.size.width - STROKE - PADDING, 
+                           currentFrame.size.height - STROKE - PADDING, 
+                           BORDER - STROKE);
+    
+    CGContextAddArcToPoint(context, 
+                           currentFrame.size.width - STROKE - PADDING, 
+                           currentFrame.size.height - STROKE - PADDING - HEIGHTOFPOPUPTRIANGLE, 
+                           round(currentFrame.size.width / 2.0f + WIDTHOFPOPUPTRIANGLE / 2.0f) - STROKE + PADDING, 
+                           currentFrame.size.height - STROKE - PADDING, 
+                           BORDER - STROKE);
+    
+    CGContextAddLineToPoint(context, 
+                            currentFrame.size.width - STROKE - PADDING - BORDER, 
+                            currentFrame.size.height - STROKE - PADDING - HEIGHTOFPOPUPTRIANGLE);
+    
+    CGContextAddLineToPoint(context, 
+                            currentFrame.size.width - (WIDTHOFPOPUPTRIANGLE/2) - STROKE, 
+                            currentFrame.size.height - STROKE - PADDING);
+    
+    CGContextAddLineToPoint(context, 
+                            currentFrame.size.width - STROKE - PADDING - WIDTHOFPOPUPTRIANGLE - BORDER, 
+                            currentFrame.size.height - STROKE - PADDING - HEIGHTOFPOPUPTRIANGLE);
+    
+    CGContextAddArcToPoint(context, 
+                           STROKE + PADDING, 
+                           currentFrame.size.height - STROKE - PADDING - HEIGHTOFPOPUPTRIANGLE, 
+                           STROKE + PADDING, 
+                           HEIGHTOFPOPUPTRIANGLE + STROKE + PADDING, 
+                           BORDER - STROKE);
+    
+    CGContextAddArcToPoint(context, 
+                           STROKE + PADDING, 
+                           STROKE + PADDING, 
+                           currentFrame.size.width - STROKE - PADDING, 
+                           STROKE + PADDING, 
+                           BORDER - STROKE);
+    
+    CGContextClosePath(context);
+    CGContextDrawPath(context, kCGPathFillStroke);
+}
+
 - (void) drawModal {
     CGRect currentFrame = self.bounds;
     CGContextRef context = UIGraphicsGetCurrentContext();
     
-    
+    CGContextSetShadow(context, CGSizeMake(-1, 1), 3);
     CGContextSetLineJoin(context, kCGLineJoinRound);
     CGContextSetLineWidth(context, STROKE);
     CGContextSetStrokeColorWithColor(context, [kBorderColor CGColor]); 
@@ -204,35 +446,61 @@
     
 }
 
+- (CGRect) getRectForPopupUp {
+    CGRect currentFrame = _messageRect;
+    return CGRectMake(STROKE + PADDING + TEXTMARGIN, 
+                      STROKE + PADDING + TEXTMARGIN + HEIGHTOFPOPUPTRIANGLE, 
+                      currentFrame.size.width - (TEXTMARGIN*2) - STROKE - PADDING, 
+                      currentFrame.size.height - (TEXTMARGIN*2) - STROKE - PADDING - HEIGHTOFPOPUPTRIANGLE);
+}
+
+- (CGRect) getRectForPopdown {
+    CGRect currentFrame = _messageRect;
+    return CGRectMake(STROKE + PADDING + TEXTMARGIN, 
+                      STROKE + PADDING + TEXTMARGIN, 
+                      currentFrame.size.width - (TEXTMARGIN*2) - STROKE - PADDING, 
+                      currentFrame.size.height - (TEXTMARGIN*2) - STROKE - PADDING - HEIGHTOFPOPUPTRIANGLE);
+}
+
+- (CGRect) getRectForModal {
+    CGRect currentFrame = _messageRect;
+    return CGRectMake(STROKE + PADDING + TEXTMARGIN, 
+                      STROKE + PADDING + TEXTMARGIN * 2, 
+                      currentFrame.size.width - (TEXTMARGIN*2) - STROKE - PADDING, 
+                      currentFrame.size.height - (TEXTMARGIN*2) - STROKE - PADDING);
+} 
+
 - (void) drawRect:(CGRect)rect{
     
-    CGRect currentFrame = _messageRect;
     UILabel *label = [[UILabel alloc] init];
     switch (_style) {
-        case CoachMarkStylePopupUp:
-            [self drawPopupUp];
-            
-            label.frame = CGRectMake(STROKE + PADDING + TEXTMARGIN, 
-                                     STROKE + PADDING + TEXTMARGIN + HEIGHTOFPOPUPTRIANGLE, 
-                                     currentFrame.size.width - (TEXTMARGIN*2) - STROKE - PADDING, 
-                                     currentFrame.size.height - (TEXTMARGIN*2) - STROKE - PADDING - HEIGHTOFPOPUPTRIANGLE);
-            
+        case CoachMarkStylePopupMiddle:
+            [self drawPopupUpMiddle];
+            label.frame = [self getRectForPopupUp];
             break;
-        case CoachMarkStylePopupDown: 
-            [self drawPopupDown];
-            
-            label.frame = CGRectMake(STROKE + PADDING + TEXTMARGIN, 
-                                     STROKE + PADDING + TEXTMARGIN, 
-                                     currentFrame.size.width - (TEXTMARGIN*2) - STROKE - PADDING, 
-                                     currentFrame.size.height - (TEXTMARGIN*2) - STROKE - PADDING - HEIGHTOFPOPUPTRIANGLE);
-            
+        case CoachMarkStylePopupLeft:
+            [self drawPopupUpLeft];
+            label.frame = [self getRectForPopupUp];
+            break;
+        case CoachMarkStylePopupRight:
+            [self drawPopupUpRight];
+            label.frame = [self getRectForPopupUp];
+            break;
+        case CoachMarkStylePopdownMiddle: 
+            [self drawPopdownMiddle];
+            label.frame = [self getRectForPopdown];
+            break;
+        case CoachMarkStylePopdownLeft: 
+            [self drawPopdownLeft];
+            label.frame = [self getRectForPopdown];
+            break;
+        case CoachMarkStylePopdownRight: 
+            [self drawPopdownRight];
+            label.frame = [self getRectForPopdown];
             break;
         default: 
             [self drawModal];
-            label.frame = CGRectMake(STROKE + PADDING + TEXTMARGIN, 
-                                     STROKE + PADDING + TEXTMARGIN, 
-                                     currentFrame.size.width - (TEXTMARGIN*2) - STROKE - PADDING, 
-                                     currentFrame.size.height - (TEXTMARGIN*2) - STROKE - PADDING);
+            label.frame = [self getRectForModal];
             break;
     }
     

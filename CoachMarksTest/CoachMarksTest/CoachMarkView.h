@@ -10,8 +10,12 @@
 
 
 typedef enum {
-    CoachMarkStylePopupUp,
-    CoachMarkStylePopupDown,
+    CoachMarkStylePopupMiddle,
+    CoachMarkStylePopupLeft,
+    CoachMarkStylePopupRight,
+    CoachMarkStylePopdownMiddle,
+    CoachMarkStylePopdownLeft,
+    CoachMarkStylePopdownRight,
     CoachMarkStyleModal
 } CoachMarkStyle;
 

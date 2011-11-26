@@ -10,7 +10,11 @@
 
 @interface ViewController : UIViewController
 
-- (IBAction)showTopBubble:(id)sender;
-- (IBAction)showBottomBubble:(id)sender;
-- (IBAction)showModalBubble:(id)sender;
+- (IBAction)showTopPopupLeft:(id)sender;
+- (IBAction)showTopPopupMiddle:(id)sender;
+- (IBAction)showTopPopupRight:(id)sender;
+- (IBAction)showModalPopup:(id)sender;
+- (IBAction)showBottomPopdownLeft:(id)sender;
+- (IBAction)showBottomPopdownMiddle:(id)sender;
+- (IBAction)showBottomPopdownRight:(id)sender;
 @end

@@ -106,8 +106,8 @@
 	[UIView commitAnimations];
 }
 
-- (void) animationStep3{
-	
+- (void)clean {
+    _active = NO;
     UIButton *overlay = (UIButton *)[[UIApplication sharedApplication].keyWindow viewWithTag:kOverlay];
     [overlay removeFromSuperview];
 	[_coachMarkView removeFromSuperview];
@@ -115,7 +115,10 @@
     if ([_coachMarks count] > 0) {
         [_coachMarks removeObjectAtIndex:0];
     }
-    
+}
+
+- (void) animationStep3{
+    [self clean];
 	[self showAlerts];
 }
 
@@ -129,5 +132,20 @@
         [self showAlerts];
     }
 }
+
+#pragma mark System Observation Changes
+- (void) keyboardWillAppear:(NSNotification *)notification {
+	[self clean];    
+}
+
+- (void) keyboardWillDisappear:(NSNotification *) notification {
+    [self clean];
+    
+}
+
+- (void) orientationWillChange:(NSNotification *) notification {
+	[self clean];	
+}
+
 
 @end
