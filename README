@@ -1,8 +1,14 @@
-Example of Coach Marks
+Example of Coach Marks for iOS using quartz.
 
 Start up your coach mark with:
 
 [[CoachMarkCenter defaultCenter] showCoachMarkWithMessage:kMessage style:<style> andFrame:<CGRect>];
 
-style => CoachMarkStylePopupDown, CoachMarkStylePopupUp, CoachMarkStyleModal
+style => CoachMarkStylePopupLeft, 
+	 CoachMarkStylePopupMiddle,
+	 CoachMarkStylePopupRight,
+	 CoachMarkStylePopdownLeft,
+	 CoachMarkStylePopdownMiddle,
+	 CoachMarkStylePopdownRight,
+	 CoachMarkStyleModal
 CGRect => size and position of coach mark
