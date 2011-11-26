@@ -9,7 +9,6 @@
 #import "CoachMarkCenter.h"
 #import "CoachMarkView.h"
 
-#define kOverlay 77777
 
 @implementation CoachMarkCenter
 
@@ -51,7 +50,7 @@
     
     
     UIButton *overlay = [[[UIButton alloc] initWithFrame:[UIScreen mainScreen].bounds]autorelease];
-    overlay.tag = kOverlay;
+    overlay.tag = kCoachMark;
     overlay.transform = CGAffineTransformIdentity;
     overlay.alpha = 0;
     [overlay addTarget:self action:@selector(myCellButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
@@ -88,7 +87,7 @@
 }
 - (IBAction)myCellButtonPressed:(id)sender{
 	[UIView beginAnimations:nil context:nil];
-    UIButton *overlay = (UIButton *)[[UIApplication sharedApplication].keyWindow viewWithTag:kOverlay];
+    UIButton *overlay = (UIButton *)[[UIApplication sharedApplication].keyWindow viewWithTag:kCoachMark];
     
 	[UIView setAnimationDelegate:self];
 	[UIView setAnimationDidStopSelector:@selector(animationStep3)];
@@ -108,7 +107,7 @@
 
 - (void)clean {
     _active = NO;
-    UIButton *overlay = (UIButton *)[[UIApplication sharedApplication].keyWindow viewWithTag:kOverlay];
+    UIButton *overlay = (UIButton *)[[UIApplication sharedApplication].keyWindow viewWithTag:kCoachMark];
     [overlay removeFromSuperview];
 	[_coachMarkView removeFromSuperview];
     
@@ -124,7 +123,7 @@
 
 
 - (void) showCoachMarkWithMessage:(NSString*)message style:(CoachMarkStyle)coachMarkStyle andFrame:(CGRect)frame {
-    CoachMarkView *view = [[CoachMarkView alloc] initWithFrame:frame message:message andStyle:coachMarkStyle];
+    CoachMarkView *view = [[[CoachMarkView alloc] initWithFrame:frame message:message andStyle:coachMarkStyle]autorelease];
     [_coachMarks addObject:view];
     _coachMarkView = view;
     

@@ -10,6 +10,8 @@
 #import <UIKit/UIKit.h>
 #import "CoachMarkView.h"
 
+#define kCoachMark 77777
+
 @interface CoachMarkCenter : NSObject {
 	NSMutableArray *_coachMarks;
 	BOOL _active;
