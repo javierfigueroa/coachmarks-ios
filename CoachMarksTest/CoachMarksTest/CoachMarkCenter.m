@@ -29,8 +29,6 @@
         
         _coachMarkFrame = [UIApplication sharedApplication].keyWindow.bounds;    
         
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillAppear:) name:UIKeyboardWillShowNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillDisappear:) name:UIKeyboardDidHideNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationWillChange:) name:UIApplicationWillChangeStatusBarOrientationNotification object:nil];
     }
     
@@ -48,7 +46,7 @@
 	
 	_active = YES;	
     
-    
+    _coachMarkView = [_coachMarks objectAtIndex:0];
     UIButton *overlay = [[[UIButton alloc] initWithFrame:[UIScreen mainScreen].bounds]autorelease];
     overlay.tag = kCoachMark;
     overlay.transform = CGAffineTransformIdentity;
@@ -68,8 +66,6 @@
 	else if(o == UIInterfaceOrientationPortraitUpsideDown) degrees = 180;
 	_coachMarkView.transform = CGAffineTransformMakeRotation(degrees * M_PI / 180);
 	_coachMarkView.transform = CGAffineTransformScale(_coachMarkView.transform, 2, 2);
-	
-	
 	
 	[UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDuration:0.25];
@@ -109,7 +105,10 @@
     _active = NO;
     UIButton *overlay = (UIButton *)[[UIApplication sharedApplication].keyWindow viewWithTag:kCoachMark];
     [overlay removeFromSuperview];
-	[_coachMarkView removeFromSuperview];
+    if (_coachMarkView) {
+        [_coachMarkView removeFromSuperview];
+        _coachMarkView = nil;
+    }
     
     if ([_coachMarks count] > 0) {
         [_coachMarks removeObjectAtIndex:0];
@@ -125,7 +124,6 @@
 - (void) showCoachMarkWithMessage:(NSString*)message style:(CoachMarkStyle)coachMarkStyle andFrame:(CGRect)frame {
     CoachMarkView *view = [[[CoachMarkView alloc] initWithFrame:frame message:message andStyle:coachMarkStyle]autorelease];
     [_coachMarks addObject:view];
-    _coachMarkView = view;
     
     if (!_active) {
         [self showAlerts];
@@ -133,17 +131,10 @@
 }
 
 #pragma mark System Observation Changes
-- (void) keyboardWillAppear:(NSNotification *)notification {
-	[self clean];    
-}
-
-- (void) keyboardWillDisappear:(NSNotification *) notification {
-    [self clean];
-    
-}
-
 - (void) orientationWillChange:(NSNotification *) notification {
-	[self clean];	
+    for (int i=0;i<[_coachMarks count];i++) {
+        [self clean];	
+    }
 }
 
 
